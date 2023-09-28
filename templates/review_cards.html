@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+       <h4>CARD ID: {{card.id}}</h4>
+       <h4>CARD FRONT: {{card.front}}</h4>
+       <h4>CARD BACK: {{card.back}}</h4>
+       <h4>CARD LAST REVIEWED: {{card.last_reviewed}}</h4>
+       <h4>CARD CARD SCORE: {{card.card_score}}</h4>
+
+        
+        <script src="" async defer></script>
+    </body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your CSS and other header elements here -->
+    <style>
+        /* CSS to hide the answer by default */
+        #answer {
+            display: none;
+        }
+    </style>
+    <script>
+        // JavaScript function to toggle answer visibility
+        function toggleAnswer() {
+            var answerDiv = document.getElementById("answer");
+            if (answerDiv.style.display === "none") {
+                answerDiv.style.display = "block";
+            } else {
+                answerDiv.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        
+        <h3>Card {{card.id }}</h3>
+        <h3>NO OF BAKI CARDS </h3>
+        <p>Front (Question): {{ card.front }}</p>
+        
+        <!-- Button to show/hide the answer -->
+        <button onclick="toggleAnswer()" class="btn btn-primary">Show Answer</button>
+        
+        <!-- Answer text (hidden by default) -->
+        <p id="answer" style="display: none;">Back (Answer): {{ card.back }}</p>
+
+        <!-- Form for delete and update actions -->
+        <form action="/update_score/{{card.id }}" method="POST" class="mt-3">
+           
+           
+            <input type="radio" id="html" name="score" value="0">
+            <label for="EASY">EASY</label><br>
+            <input type="radio" id="css" name="score" value="1">
+            <label for="MEDIUM">MEDIUM</label><br>
+            <input type="radio" id="javascript" name="score" value="2">
+            <label for="HARD">HARD</label>
+            <button type="submit" class="btn btn-danger">SUBMIT</button>
+        </form>
+
+        
+    
+      
+    </div>
+</body>
+</html>

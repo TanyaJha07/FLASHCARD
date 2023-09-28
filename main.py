@@ -1,6 +1,7 @@
 from flask import Flask , render_template , request , redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
+import random
 from datetime import datetime
 import os
 
@@ -63,12 +64,12 @@ if not os.path.exists("./instance/flash.db"):
                 # D3 = Deck(name = "demo_deck3", last_reviewed = datetime.now(), deck_score = 0, user_id = 1)
                 # D4 = Deck(name = "demo_deck4", last_reviewed = datetime.now(), deck_score = 0, user_id = 1)
                 # D5 = Deck(name = "demo_deck5", last_reviewed = datetime.now(), deck_score = 0, user_id = 1)
-                C1 = Card(front = "EASY1", back = "demo_back1", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
-                C2 = Card(front = "EASY2", back = "demo_back2", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
-                C3 = Card(front = "MEDIUM1", back = "demo_back3", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
-                C4 = Card(front = "MEDIUM2", back = "demo_back4", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
-                C5 = Card(front = "HARD1", back = "demo_back5", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
-                C6 = Card(front = "HARD2", back = "demo_back6", card_score = 0, last_reviewed = datetime.now(), deck_id = 1)
+                C1 = Card(front = "EASY1", back = "EASY1", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
+                C2 = Card(front = "EASY2", back = "EASY2", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
+                C3 = Card(front = "MEDIUM1", back = "MEDIUM1", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
+                C4 = Card(front = "MEDIUM2", back = "MEDIUM2", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
+                C5 = Card(front = "HARD1", back = "HARD1", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
+                C6 = Card(front = "HARD2", back = "HARD2", card_score = 2, last_reviewed = datetime.now(), deck_id = 1)
                 db.session.add(D1)
                 # db.session.add(D2)
                 # db.session.add(D3)
@@ -121,9 +122,10 @@ def login():
 
 @app.route('/user_dashboard/<int:user_id>',methods =['GET'])
 def user_dashboard(user_id):
+    msg = request.args.get('msg')
     user = User.query.get_or_404(user_id)
     print(user.user_decks)
-    return render_template('user_dashboard.html', user = user)
+    return render_template('user_dashboard.html', user = user, msg = msg)
 
 @app.route('/add_deck/<int:user_id>', methods=['GET', 'POST'])
 def add_deck(user_id):
@@ -188,56 +190,51 @@ def add_card(deck_id):
     return render_template('add_card.html', deck=deck)
 
 @app.route('/review_cards/<int:deck_id>', methods=['GET', 'POST'])
-def review_cards(deck_id, card_id):
+def review_cards(deck_id):
     deck = Deck.query.get_or_404(deck_id)
     cards = deck.cards
-
-    current_card_index = None
-    for i, card in enumerate(cards):
-        if card.id == card_id:
-            current_card_index = i
-            break
-
+    #remove the cards that has score as 0.
+    cards = [card for card in cards if card.card_score != 0]
+    random.shuffle(cards)
+    if cards:
+        return render_template('review_cards.html', card=cards[0])
+    else:
+        deck.last_reviewed = datetime.now()
+        db.session.add(deck)
+        db.session.commit()
+        return redirect(f'/user_dashboard/{deck.deck_user.id}?msg=No cards to review')
     # Check if the current card is the last card in the deck
-    is_last_card = current_card_index == len(cards) - 1
-
     # Get the current card and the next card (if not the last card)
-    current_card = cards[current_card_index]
-    next_card = cards[current_card_index + 1] if not is_last_card else None
-
+@app.route('/update_score/<int:card_id>',methods=['POST'])
+def update_score(card_id):
+    #return request.form
+    card = Card.query.get_or_404(card_id)
     if request.method == 'POST':
-        action = request.form.get('action')
-        # print(request.form)
-        # return request.form
-        # Perform CRUD operations based on the action
-        if action == 'edit':
-            # Handle card edit (redirect to an edit page)
-            return redirect(url_for('edit_card', card_id=current_card.id))
+        if card.card_score == 1 and request.form['score'] == '1':
+            card.card_score = 0
+        else:
+            card.card_score = int(request.form['score'])
+        try:
+            card.last_reviewed = datetime.now()
+            db.session.add(card)
+            db.session.commit()
+            return redirect(f'/review_cards/{card.card_deck.id}')
+        except:
+            return 'There was an issue updating the score'
+    return render_template('update_score.html', card=card)
 
-        elif action == 'delete':
-            # Handle card deletion
-            try:
-                db.session.delete(current_card)
-                db.session.commit()
-                return redirect(f'/user_dashboard/{deck.deck_user.id}')
-            except Exception as e:
-                print(e)
-                return 'There was an issue deleting the card'
-
-        elif action == 'update_score':
-            # Handle updating card score (you can customize this based on your requirements)
-            new_score = request.form.get('new_score')
-            try:
-                current_card.card_score = int(new_score)
-                db.session.commit()
-            except ValueError:
-                print("Invalid score value")
-
-        # Add other CRUD operations as needed
-    return render_template('review_cards.html', deck=deck, current_card=current_card, next_card=next_card, is_last_card=is_last_card)
-
-
-
+@app.route('/reset_deck/<int:deck_id>') 
+def reset_deck(deck_id):
+    deck = Deck.query.get_or_404(deck_id)
+    cards = deck.cards
+    for card in cards:
+        card.card_score = 2
+    try:
+        db.session.add(deck)
+        db.session.commit()
+        return redirect(f'/user_dashboard/{deck.deck_user.id}')
+    except:
+        return 'There was an issue resetting the deck'
 
 if __name__ == '__main__':
     app.run(debug=True)

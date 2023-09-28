@@ -68,6 +68,7 @@
 <body>
     <header>
         <h1>Welcome, {{ user.username }}</h1>
+        
     </header>
     <div class="container">
         <h2>Your Decks</h2>
@@ -82,7 +83,7 @@
             
             <a href="/add_card/{{ deck.id }}" class="btn btn-success">Add Card</a>
             {% if deck.cards %}
-                <a href="/review_cards/{{ deck.id }}/{{ deck.cards[0].id }}" class="btn btn-success">Review Cards</a>
+                <a href="/review_cards/{{ deck.id }}" class="btn btn-success">Review Cards</a>
             {% endif %}
 
         </div>
