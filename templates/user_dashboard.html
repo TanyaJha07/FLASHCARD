@@ -70,6 +70,7 @@
         <h1>Welcome, {{ user.username }}</h1>
         
     </header>
+    {{msg}}
     <div class="container">
         <h2>Your Decks</h2>
         &nbsp <a href="/add_deck/{{ user.id }}"> Add Deck</a> <br>
@@ -82,9 +83,15 @@
             <a href="/delete_deck/{{ deck.id }}">Delete Deck</a> <br>
             
             <a href="/add_card/{{ deck.id }}" class="btn btn-success">Add Card</a>
-            {% if deck.cards %}
+            {% if deck.cards and deck.cards|map(attribute='card_score')|sum > 0 %}
                 <a href="/review_cards/{{ deck.id }}" class="btn btn-success">Review Cards</a>
-            {% endif %}
+            {%elif deck.cards|length==0 %}
+            no cards
+            
+            {%else%}
+                <a href="/reset_deck/{{ deck.id }}" class="btn btn-success">Reset Cards</a>
+                
+                {% endif %}
 
         </div>
         {% endfor %}
