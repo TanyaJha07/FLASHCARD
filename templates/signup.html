@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #000000, #808080);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+        }
+
+        form {
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            margin-right: 0; /* Remove right margin to align with the right side */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #808080;
+        }
+
+        p.error {
+            color: red;
+            margin-top: -20px; /* Move the error message up */
+        }
+
+        /* Reduce the width of the input fields */
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
+        }
+    </style>
+</head>
+<body>
+    <h2>SIGNUP</h2>
+    <form method="POST" action="/signup">
+        <p class="error"> <!-- Error message at the top -->
+            {% if error %}
+                {{ error }}
+            {% endif %}
+        </p>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="submit">Signup</button>
+    </form>
+</body>
+</html>

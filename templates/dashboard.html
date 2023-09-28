@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question Dashboard</title>
+</head>
+<body>
+    <h1>Question Submission Dashboard</h1>
+    
+    <form method="POST" action="/dashboard">
+        <label for="question">Enter your question:</label><br>
+        <textarea id="question" name="question" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Existing Questions:</h2>
+    <ul>
+        {% for q in questions %}
+        <li>{{ q.question }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
