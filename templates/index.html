@@ -7,10 +7,13 @@
     <style>
         /* Define your styles here */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            font-family: "Times New Roman", Times, serif;
+            background-color: black; /* Set the background color to black */
             margin: 0;
             padding: 0;
+            color: white; /* Set the text color to white */
+            background-image: url('/static/bck.png'); /* Specify the path to your texture image */
+            background-repeat: repeat; /* You can also use 'repeat-x' or 'repeat-y' to control the direction of the texture */
         }
 
         header {
@@ -20,12 +23,12 @@
 
         h1 {
             font-size: 36px;
-            color: #333;
+            color: #825f3d; /* Set text color to white */
         }
 
         p {
             font-size: 18px;
-            color: #666;
+            color: #825f3d; /* Light gray text color */
         }
 
         .features {
@@ -47,8 +50,8 @@
 
         .cta {
             text-align: center;
-            background-color: #333;
-            color: #fff;
+            background-color: transparent; /* Remove background color */
+            color:#825f3d; /* Set text color to white */
             padding: 100px 0;
         }
 
@@ -78,8 +81,8 @@
 
         footer {
             text-align: center;
-            background-color: #333;
-            color: #fff;
+            background-color: transparent; /* Remove background color */
+            color: #fff; /* Set text color to white */
             padding: 20px 0;
         }
     </style>
@@ -93,8 +96,7 @@
     <!-- ... Rest of your HTML content ... -->
 
     <section class="cta">
-        <h2>Ready to get started?</h2>
-        <p>Join to Train! Join to Excel</p>
+        <h3>Ready to get started? Join to Train! Join to Excel</h3>
         <a href="/login" class="btn">Login</a>
         <a href="/signup" class="btn">Sign Up</a>
     </section>

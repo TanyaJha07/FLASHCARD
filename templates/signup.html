@@ -7,19 +7,22 @@
     <style>
         body {
             background: linear-gradient(135deg, #000000, #808080);
-            font-family: Arial, sans-serif;
+            font-family: "Times New Roman", Times, serif;
+            background-image: url('/static/bck2.png');
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column; /* Align items in a column */
         }
-
-        h2 {
+        
+        h1 {
             text-align: center;
-            color: #fff;
+            color:#825f3d;
+            margin-top: 20px; /* Add margin-top to separate from the top */
         }
-
+        
         form {
             background: #fff;
             border-radius: 5px;
@@ -44,6 +47,7 @@
         }
 
         button {
+            font-family:"Times New Roman", Times, serif;
             width: 100%;
             padding: 10px;
             background-color: #000000;
@@ -54,7 +58,7 @@
         }
 
         button:hover {
-            background-color: #808080;
+            background-color:  #825f3d;
         }
 
         p.error {
@@ -70,7 +74,7 @@
     </style>
 </head>
 <body>
-    <h2>SIGNUP</h2>
+    <h1>SIGNUP</h1>
     <form method="POST" action="/signup">
         <p class="error"> <!-- Error message at the top -->
             {% if error %}

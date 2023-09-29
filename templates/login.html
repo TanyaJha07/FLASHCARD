@@ -7,21 +7,23 @@
     <style>
         body {
             background: linear-gradient(135deg, #000000, #808080);
-            font-family: Arial, sans-serif;
+            font-family:"Times New Roman", Times, serif;
+            background-image: url('/static/bck2.png');
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            flex-direction: column; /* Align items in a column */
         }
-
+        
         h1 {
             text-align: center;
-            color: #fff;
-            margin-bottom: 20px; /* Add margin to separate from the form */
+            color:#825f3d;
+            margin-top: 20px; /* Add margin-top to separate from the top */
         }
-
-        .form-container {
+        
+        form {
             background: #fff;
             border-radius: 5px;
             padding: 20px;
@@ -39,12 +41,13 @@
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
-            margin-right: 0;
+            margin-right: 0; /* Remove right margin to align with the right side */
             border: 1px solid #ccc;
             border-radius: 3px;
         }
 
         button {
+            font-family:"Times New Roman", Times, serif;
             width: 100%;
             padding: 10px;
             background-color: #000000;
@@ -55,22 +58,23 @@
         }
 
         button:hover {
-            background-color: #ff3300;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            width: calc(100% - 22px);
+            background-color: #825f3d;
         }
 
         p.error {
             color: red;
-            margin-top: 10px;
+            margin-top: -20px; /* Move the error message up */
+        }
+
+        /* Reduce the width of the input fields */
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 22px);
         }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
+    <h1>LOGIN</h1>
 
     <div class="form-container">
         <form method="POST" action="/login">
