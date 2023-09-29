@@ -68,12 +68,12 @@
 </head>
 <body>
     <header>
-        <h1>Welcome, {{ user.username }}</h1>
+        <h1>WELCOME, {{ user.username }}</h1>
         
     </header>
     {{msg}}
     <div class="container">
-        <h2>Your Decks</h2>
+        <h2>YOUR DECKS </h2>
         &nbsp <a href="/add_deck/{{ user.id }}"> Add Deck</a> <br>
         {% for deck in user.user_decks %}
         <div class="card">
