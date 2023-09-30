@@ -194,10 +194,12 @@ def review_cards(deck_id):
     deck = Deck.query.get_or_404(deck_id)
     cards = deck.cards
     #remove the cards that has score as 0.
+    
     cards = [card for card in cards if card.card_score != 0]
+    cards_left = len(cards)
     random.shuffle(cards)
     if cards:
-        return render_template('review_cards.html', card=cards[0])
+        return render_template('review_cards.html', card=cards[0], cards_left = cards_left)
     else:
         deck.last_reviewed = datetime.now()
         db.session.add(deck)
