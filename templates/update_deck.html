@@ -21,8 +21,8 @@
         }
 
         .update-deck {
-            background-color: #825f3d; /* Change update deck background color to #825f3d */
-            color: white; /* Change text color to white */
+            background-color: white; /* Change form background color to white */
+            color: #825f3d; /* Change text color to #825f3d */
         }
 
         /* Button styles */
@@ -39,7 +39,7 @@
 <body>
     <div class="container update-deck">
         <a href="/user_dashboard/{{deck.deck_user.id}}" class="btn btn-primary float-end">Back to Dashboard</a>
-        <h1 class="mb-4">Update Deck</h1>
+        <h1 class="mb-4">UPDATE DECK</h1>
         <form action="/update_deck/{{deck.id}}" method="POST">
 
             <div class="mb-3">
