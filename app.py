@@ -197,6 +197,7 @@ def review_cards(deck_id):
     
     cards = [card for card in cards if card.card_score != 0]
     cards_left = len(cards)
+    print(cards_left)
     random.shuffle(cards)
     if cards:
         return render_template('review_cards.html', card=cards[0], cards_left = cards_left)
@@ -239,7 +240,7 @@ def reset_deck(deck_id):
         return 'There was an issue resetting the deck'
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=50505)
 
 
 
