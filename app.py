@@ -37,8 +37,10 @@ This is typically used when you have multiple relationships between the same two
 
 class Card(db.Model):
         id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+
         front = db.Column(db.String(200), nullable = False)
         back = db.Column(db.String(200), nullable = False)
+        content = db.Column(db.Text, nullable=True) 
         card_score = db.Column(db.Integer, nullable = False , default = 2)
         last_reviewed = db.Column(db.DateTime , default = datetime.now())
         deck_id = db.Column(db.Integer, db.ForeignKey('deck.id'), nullable=False)
@@ -178,7 +180,10 @@ def add_card(deck_id):
     if request.method == 'POST':
         front = request.form['front']
         back = request.form['back']
-        card = Card(front=front, back=back, deck_id=deck.id)
+        print(request.form)
+        content = request.form['content']
+        print(content)
+        card = Card(front=front, back=back,content=content, deck_id=deck.id)
         
         try:
             db.session.add(card)
@@ -200,6 +205,7 @@ def review_cards(deck_id):
     print(cards_left)
     random.shuffle(cards)
     if cards:
+        # cards[0].content = cards[0].content[10:]
         return render_template('review_cards.html', card=cards[0], cards_left = cards_left)
     else:
         deck.last_reviewed = datetime.now()
@@ -240,7 +246,7 @@ def reset_deck(deck_id):
         return 'There was an issue resetting the deck'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=50505)
+    app.run(host='0.0.0.0', port=50505,debug=True)
 
 
 
