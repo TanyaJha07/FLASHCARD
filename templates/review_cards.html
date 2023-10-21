@@ -16,11 +16,6 @@
             color: #333;
         }
 
-        /* CSS to hide the answer by default */
-        #answer {
-            display: none;
-        }
-
         /* Custom button styles */
         .btn-custom {
             background-color: black;
@@ -41,25 +36,41 @@
 </head>
 <body>
     <div class="container mt-5">
-        
-        <h4>CARD SCORE: {{card.card_score}}</h4>
-        <h4>NO OF CARDS LEFT: {{card.cards_left}}</h4>
-        <h6>CARD LAST REVIEWED: {{card.last_reviewed}}</h6>
-        <h4>CARD FRONT: {{card.front}}</h4>
+        <h4>CARD SCORE: {{ card.card_score }}</h4>
+        <h4>NO OF CARDS LEFT: {{ card.cards_left }}</h4>
+        <h6>CARD LAST REVIEWED: {{ card.last_reviewed }}</h6>
+        <div>
 
+            <div id="content">
+                {{ card.content | safe }}
+            </div>
+        </div>
+
+        <h4>Question : </h4>
+          <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ card.front }}</h5>
+        <br>
+        <div class="quiz-section">
+            <p>Fill Up: <input type="text" id="fill-up-{{ index }}" maxlength={{ card.back|length }} data-answer="{{ card.back }}" size={{ card.back|length }} style="font-family: Courier;" onkeyup="LimitInput(this, {{ card.back|length }});"></p>
+        </div>
+     
+
+        <h3 id="answer" style="display: none;">Back (Answer): {{ card.back }}</h3>
         <button onclick="toggleAnswer()" class="btn btn-custom">Show Answer</button>
 
         <!-- Answer text (hidden by default) -->
-        <p id="answer" style="display: none;">Back (Answer): {{ card.back }}</p>
+        
+
+        <!-- Display content -->
+        
 
         <!-- Form for delete and update actions -->
-        <form action="/update_score/{{card.id }}" method="POST" class="mt-3">
-            <input type="radio" id="html" name="score" value="0">
+        <form action="/update_score/{{ card.id }}" method="POST" class="mt-3">
+            <input type="radio" id="easy" name="score" value="0">
             <label for="EASY">EASY</label><br>
-            <input type="radio" id="css" name="score" value="1">
+            <input type="radio" id="medium" name="score" value="1">
             <label for="MEDIUM">MEDIUM</label><br>
-            <input type="radio" id="javascript" name="score" value="2">
-            <label for="HARD">HARD</label>
+            <input type="radio" id="hard" name="score" value="2">
+            <label for="HARD">HARD</label><br>
             <button type="submit" class="btn btn-custom">SUBMIT</button>
         </form>
     </div>
@@ -75,6 +86,20 @@
                 answerDiv.style.display = "none";
             }
         }
+    </script>
+    <script>
+        // Add JavaScript to check answers
+        const inputs = document.querySelectorAll('input[type="text"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const answer = input.getAttribute('data-answer');
+                if (input.value === answer) {
+                    input.style.backgroundColor = 'lightgreen';
+                } else {
+                    input.style.backgroundColor = 'pink';
+                }
+            });
+        });
     </script>
 </body>
 </html>

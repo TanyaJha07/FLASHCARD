@@ -57,6 +57,11 @@
             <h1 class="mb-4">ADD CARD</h1>
             <form action="/add_card/{{ deck.id }}" method="POST">
                 <div class="mb-3">
+                    <label for="content" class="form-label">Paste Text and Images</label>
+                    <div class="editable" contenteditable="true" id="content"></div>
+                    <input type="hidden" id="content_input" name="content" value="">
+                </div>
+                <div class="mb-3">
                     <label for="front" class="form-label">Question Text</label>
                     <input type="text" class="form-control" id="front" name="front" required>
                 </div>
@@ -64,12 +69,21 @@
                     <label for "back" class="form-label">Answer Text</label>
                     <input type="text" class="form-control" id="back" name="back" required>
                 </div>
-                <div class="mb-3">
-                    <label for="content" class="form-label">Paste Text and Images</label>
-                    <div class="editable" contenteditable="true" id="content" name="content"></div>
-                </div>
+                
+                
                 <button type="submit" class="btn btn-primary">Add Card</button>
             </form>
         </div>
+        <script>
+            // Get a reference to the content div and the hidden input field
+            var contentDiv = document.getElementById("content");
+            var contentInput = document.getElementById("content_input");
+        
+            // Add an event listener to capture changes to the content div
+            contentDiv.addEventListener("input", function () {
+                contentInput.value = contentDiv.innerHTML;
+            });
+        </script>
+        
     </body>
     </html>
