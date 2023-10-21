@@ -178,6 +178,9 @@ def add_card(deck_id):
     if request.method == 'POST':
         front = request.form['front']
         back = request.form['back']
+        print(request.form)
+        content = request.form['content']
+        print(content)
         card = Card(front=front, back=back, deck_id=deck.id)
         
         try:
@@ -240,7 +243,7 @@ def reset_deck(deck_id):
         return 'There was an issue resetting the deck'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=50505)
+    app.run(host='0.0.0.0', port=50505,debug=True)
 
 
 
